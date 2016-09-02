@@ -1,0 +1,36 @@
+{
+  "name": "mean-test",
+  "version": "0.1.0",
+  "description": "An attempt to become familiar with the MEAN life.",
+  "main": "app/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blieque/mean-test.git"
+  },
+  "author": "Lucien Walters",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blieque/mean-test/issues"
+  },
+  "homepage": "https://github.com/blieque/mean-test#readme",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongodb": "^2.2.9"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-clean-css": "^2.0.12",
+    "gulp-concat": "^2.6.0",
+    "gulp-htmlmin": "^2.0.0",
+    "gulp-nodemon": "^2.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0"
+  }
+}
