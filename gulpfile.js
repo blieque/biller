@@ -9,13 +9,15 @@ let sass = require('gulp-sass');
 let autoprefixer = require('gulp-autoprefixer')
 let cleanCss = require('gulp-clean-css');
 let nodemon = require('gulp-nodemon');
+let del = require('del');
 //let exec = require('child_process').exec;
 
 let paths = {
     source: {
         markup: "source/*.html",
         scripts: "source/scripts/**/*.js",
-        styles: "source/styles/main.scss"
+        styles: "source/styles/main.scss",
+        images: "source/images/**/*"
     },
     output: "public"
 }
@@ -27,6 +29,10 @@ let paths = {
 //        .pipe(jshint.reporter('jshint-stylish'));
 //});
 
+gulp.task('clean', () => {
+    return del(['public/']);
+})
+// compile and minify markup
 gulp.task('markup', () => {
     return gulp.src(paths.source.markup)
         .pipe(htmlMin({ collapseWhitespace: true }))
@@ -56,13 +62,21 @@ gulp.task('styles', () => {
         .pipe(gulp.dest(paths.output));
 });
 
+// copy images to output directory
+gulp.task('images', () => {
+    return gulp.src(paths.source.images)
+        .pipe(gulp.dest(`${paths.output}/images`));
+});
+
 // watch for changes
 gulp.task('watch', () => {
     gulp.watch(paths.source.markup, ['markup']);
     gulp.watch(paths.source.scripts, ['scripts']);
     gulp.watch(paths.source.styles, ['styles']);
+    gulp.watch(paths.source.images, ['images']);
 });
 
+// serve and watch for changes
 gulp.task('server', () => {
     nodemon({
         script: 'app/server.js',
@@ -70,11 +84,10 @@ gulp.task('server', () => {
         env: { 'NODE_ENV': 'development' }
     })
         .on('start', ['watch'])
-        //.on('change', ['watch'])
         .on('restart', () => {
             console.log('restarted');
         });
 });
 
 gulp.task('default', ['server']);
-gulp.task('build', ['markup', 'scripts', 'styles']);
+gulp.task('build', ['clean', 'markup', 'scripts', 'styles', 'images']);
