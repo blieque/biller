@@ -16,21 +16,15 @@ let paths = {
     source: {
         markup: "source/*.html",
         scripts: "source/scripts/**/*.js",
-        styles: "source/styles/main.scss",
+        styles: "source/styles/global.scss",
         images: "source/images/**/*"
     },
     output: "public"
 }
 
-// linting
-//gulp.task('lint', () => {
-//    return gulp.src(assets)
-//        .pipe(jshint())
-//        .pipe(jshint.reporter('jshint-stylish'));
-//});
-
+// remove old build
 gulp.task('clean', () => {
-    return del(['public/']);
+    return del(['public/**/*']);
 })
 // compile and minify markup
 gulp.task('markup', () => {
@@ -83,11 +77,12 @@ gulp.task('server', () => {
         ext: 'js',
         env: { 'NODE_ENV': 'development' }
     })
-        .on('start', ['watch'])
+        .on('start', ['build', 'watch'])
         .on('restart', () => {
             console.log('restarted');
         });
 });
 
+// task aliases
 gulp.task('default', ['server']);
 gulp.task('build', ['clean', 'markup', 'scripts', 'styles', 'images']);
