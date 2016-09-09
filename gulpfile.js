@@ -4,7 +4,8 @@ let gulp = require('gulp');
 let rename = require('gulp-rename');
 let concat = require('gulp-concat');
 let htmlMin = require('gulp-htmlmin');
-let uglify = require('gulp-uglify');
+let uglify = require('uglify-js-harmony');
+let minifier = require('gulp-uglify/minifier');
 let sass = require('gulp-sass');
 let autoprefixer = require('gulp-autoprefixer')
 let cleanCss = require('gulp-clean-css');
@@ -34,13 +35,18 @@ gulp.task('markup', () => {
 });
 
 // concatentate + minify scripts
-gulp.task('scripts', () => {
-    return gulp.src(paths.source.scripts)
-        .pipe(concat('global.js'))
-        .pipe(gulp.dest(paths.output))
-        .pipe(uglify())
-        .pipe(rename('global.min.js'))
-        .pipe(gulp.dest(paths.output));
+gulp.task('scripts', (cb) => {
+//    return gulp.src(paths.source.scripts)
+//        .pipe(concat('global.js'))
+//        .pipe(gulp.dest(paths.output))
+//        .pipe(minifier({}, uglify))
+//        .pipe(rename('global.min.js'))
+//        .pipe(gulp.dest(paths.output));
+    pump([
+        gulp.src(paths.source.scripts),
+        minifier(options, uglifyjs),
+        gulp.dest(paths.output)
+    ], cb);
 });
 
 // concatenate + minify styles
